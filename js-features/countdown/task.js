@@ -28,6 +28,7 @@ const countdown = function alertWin() {
             if (hh == 0) {
                 alert("Вы победили в конкурсе!");
                 clearInterval(counter);
+                return;
             }
 
             hh--;
