@@ -5,7 +5,6 @@ const clickerCounter = document.getElementById("clicker__counter");
 const speedCounter = document.getElementById("speed__counter");
 
 let dateBefore = new Date();
-let secondsBefore = dateBefore.getSeconds();
 
 cookie.onclick = function countClicks() {
     // Необходимо разработать нового «убийцу времени» - кликер печенек. 
@@ -20,8 +19,9 @@ cookie.onclick = function countClicks() {
     // Добавьте параметр «Скорость клика». Он должен показывать среднее количество кликов в секунду. 
     // Значение обновляется при каждом новом клике.
     let dateAfter = new Date();
-    let secondsAfter = dateAfter.getSeconds();
-    let difference = secondsAfter - secondsBefore;
-    let speed = (1 / difference);
+    let difference = (dateAfter - dateBefore) / 1000;
+    let speed = 1 / difference;
     speedCounter.textContent = speed.toFixed(2);
+
+    dateBefore = dateAfter;
 }
