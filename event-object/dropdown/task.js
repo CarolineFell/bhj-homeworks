@@ -1,25 +1,31 @@
 'use strict';
 
-const dropdownList = document.querySelectorAll('.dropdown__list'); 
-const dropdownValue = document.querySelectorAll('.dropdown__value'); 
-const dropdownLink = document.querySelectorAll('.dropdown__link'); 
+const dropdownValue = document.querySelectorAll('.dropdown__value');
+const dropdownList = document.querySelectorAll('.dropdown__list');
+const dropdownLink = document.querySelectorAll('.dropdown__link');
 
-for (let i=0; i < dropdownLink.length; i++) {
-    const dropdownItem = dropdownLink.item(i).previousSibling.parentElement;
+for (let i = 0; i < dropdownValue.length; i++) {
     
-    for (let n=0; n < dropdownValue.length; n++) {
-        for (let j=0; j < dropdownList.length; j++) {
+    dropdownValue.item(i).addEventListener('click', function() {
+        dropdownList.item(i).classList.toggle('dropdown__list_active');
 
-            dropdownValue.item(n).addEventListener('click', function(event) {
-                event.preventDefault();
-                dropdownList.item(j).classList.add('dropdown__list_active');
-            })
+        for (let n = 0; n < dropdownList.length; n++) {
+            if (dropdownList.item(n).classList.contains('dropdown__list_active') && n != i) {
+                dropdownList.item(n).classList.remove('dropdown__list_active');                
+            }            
+        }
 
-            dropdownItem.addEventListener('click', function(event) {
+        const dropdownLinkArray = Array.from(dropdownLink);
+        let dropdownLinkArrayFiltered = dropdownLinkArray.filter(function(dropdownLink) {
+            return dropdownLink.closest('ul.dropdown__list_active') ? true : false;
+        });
+
+        for (let j = 0; j < dropdownLinkArrayFiltered.length; j++) {
+            dropdownLinkArrayFiltered[j].addEventListener('click', function(event) {
                 event.preventDefault();
-                dropdownValue.item(n).textContent = dropdownLink.item(i).textContent;
-                dropdownList.item(j).classList.remove('dropdown__list_active');
+                dropdownList.item(i).classList.remove('dropdown__list_active');
+                dropdownValue.item(i).textContent = dropdownLinkArrayFiltered[j].textContent;
             })
         }
-    }
-}
+    });
+} 

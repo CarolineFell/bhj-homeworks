@@ -1,3 +1,7 @@
+body {
+  display: flex;
+}
+
 .dropdown {
   list-style-type: none;
   padding: 0;
@@ -7,8 +11,8 @@
   font-weight: 300;
 }
 
-.dropdown__value:nth-child(n+2) {
-  margin-left: 50px;
+.dropdown:nth-child(n) {
+  margin-right: 50px;
 }
 
 .dropdown__value {
