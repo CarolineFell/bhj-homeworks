@@ -1,51 +1,60 @@
 'use strict';
 
-const sliderArrowPrev = document.querySelectorAll('.slider__arrow_prev');
-const sliderArrowNext = document.querySelectorAll('.slider__arrow_next');
-const sliderArrows = document.querySelector('.slider__arrows');
-const sliderDot = document.querySelectorAll('.slider__dot');
-const sliderItem = document.getElementsByClassName('slider__item');
+const sliderArrowPrev = document.querySelector('.slider__arrow_prev');
+const sliderArrowNext = document.querySelector('.slider__arrow_next');
+
+const sliderItem = document.querySelectorAll('.slider__item');
 const sliderItemArray = Array.from(sliderItem);
 
-let currentSlide = 0;
+const sliderDot = document.querySelectorAll('.slider__dot');
+const sliderDotArray = Array.from(sliderDot);
 
-sliderArrows.onclick = function(event) {
+// Внутри реализации этой функции находите активное изображение (с помощью find, findIndex или селектором из блока)
+let itemActive = sliderItemArray.indexOf(document.querySelector('div.slider__item_active'));
 
-	if (event.target === sliderArrowNext.item(0) && currentSlide === sliderItemArray.length - 1) {
-        sliderItem[sliderItemArray.length - 1].classList.toggle('slider__item_active');
-        sliderDot[sliderItemArray.length - 1].classList.toggle('slider__dot_active');
-        currentSlide = 0;
-        
-	} else if (event.target === sliderArrowNext.item(0)) {
-		currentSlide++;
-        sliderItem[currentSlide - 1].classList.toggle('slider__item_active');
-        sliderDot[currentSlide - 1].classList.toggle('slider__dot_active');
+sliderDotArray[itemActive].classList.add('slider__dot_active');
 
-	} else if (event.target === sliderArrowPrev.item(0) && currentSlide === 0) {
-        sliderItem.item(0).classList.toggle('slider__item_active');
-        currentSlide = sliderItemArray.length - 1;
-        
-	} else if (event.target === sliderArrowPrev.item(0)) {
-		currentSlide--;
-        sliderItem[currentSlide + 1].classList.toggle('slider__item_active');
-        sliderDot[currentSlide + 1].classList.toggle('slider__dot_active');
+// Сделайте функцию, которая принимает число и выставляет нужное изображение активным.
+function click(slide, slideDot) {
+
+    // после нахождения уже активированного изображения вам нужно убрать эту активность (для изображения и точки)
+    sliderItemArray[itemActive].classList.remove('slider__item_active');
+
+    // и активировать те, которые были переданы.
+    if (slideDot === true) {
+        sliderDotArray.forEach((dot) => (dot.classList.remove('slider__dot_active')));
+        // Например передаётся число 0 активируется изображение по нулевому индексу, а так же точка по нулевой позции.
+        itemActive = sliderDotArray.indexOf(slide);
+        sliderItemArray[itemActive].classList.add('slider__item_active');
+
+    } else {
+        sliderDotArray[itemActive].classList.remove('slider__dot_active');
+        // Например передаётся число 0 активируется изображение по нулевому индексу, а так же точка по нулевой позции. 
+        itemActive = slide;
+        sliderItemArray[slide].classList.add('slider__item_active');
     }
 
-    sliderItem[currentSlide].classList.toggle('slider__item_active');
-    sliderDot[currentSlide].classList.toggle('slider__dot_active');
+    sliderDotArray[itemActive].classList.add('slider__dot_active');
+}
 
-
-    for (let i=0; i < sliderDot.length; i++) {
-        sliderDot.item(i).onclick = function clickDot() {
-           
-            for (let i=0; i < sliderDot.length; i++) {
-                if (sliderItem.item(i).classList.contains('slider__item_active')) {
-                    sliderDot.item(i).classList.remove('slider__dot_active');
-                    sliderItem.item(i).classList.remove('slider__item_active');
-                }
-            }
-            sliderDot.item(i).classList.add('slider__dot_active');
-            sliderItem.item(i).classList.add('slider__item_active');
-        }
+sliderArrowNext.onclick = function() {
+    let nextSlide = itemActive + 1;
+    if (nextSlide === sliderItemArray.length) {
+        nextSlide = 0;
     }
+    click(nextSlide, false);
+};
+
+sliderArrowPrev.onclick = function() {
+    let previousSlide = itemActive - 1;
+    if (previousSlide === -1) {
+        previousSlide = sliderItemArray.length - 1;
+    }
+    click(previousSlide, false);
+};
+
+for (let dot of sliderDotArray) {
+    dot.onclick = function() {
+        click(dot, true);
+    };
 }
