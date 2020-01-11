@@ -37,7 +37,6 @@
   border-radius: 20px 0 0 0;
 }
 
-
 .message {
   margin-bottom: 10px;
   display: flex;
@@ -73,6 +72,10 @@
 
 .message_client .message__text {
   background: red;
+}
+
+.client-message {
+  text-align: right;
 }
 
 .chat-widget__input {
