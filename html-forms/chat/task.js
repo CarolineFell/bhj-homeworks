@@ -56,6 +56,25 @@ function getRealDate() {
     }
 }
 
+getRealDate();
+messages.innerHTML += `
+    Сообщение от робота:
+        <div class="message">
+            <div class="message__time">${dateHHMM}</div>
+            <div class="message__text">Добрый день!</div>
+        </div>
+    `;
+
+messages.innerHTML += `
+    <div class="client-message">Сообщение от клиента:</div>
+        <div class="message message_client">
+            <div class="message__time">${dateHHMM}</div>
+            <div class="message__text">Добрый день!</div>
+        </div>
+    `;
+
+    document.querySelector('.client-message').style.textAlign = "right";
+    
 messageClient.addEventListener('keydown', e => {
     if (messageClient.value) {
         if (e.keyCode === 13) {
