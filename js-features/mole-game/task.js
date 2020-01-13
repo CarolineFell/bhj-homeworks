@@ -4,7 +4,7 @@ const dead = document.getElementById("dead");
 const lost = document.getElementById("lost");
 const hole = document.getElementsByClassName("hole");
 
-for (let i=0; i <= hole.length; i++) {
+for (let i=0; i < hole.length; i++) {
     hole[i].onclick = function catchMole() {
         if (hole[i].className.includes("hole_has-mole")) {
             dead.textContent++;
