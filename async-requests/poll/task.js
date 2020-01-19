@@ -1,3 +1,5 @@
+'use strict';
+
 let pollTitle = document.getElementById('poll__title');
 let pollAnswers = document.getElementById('poll__answers');
 let id, title, answers;
