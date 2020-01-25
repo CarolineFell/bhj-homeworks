@@ -4,25 +4,26 @@ const progress = document.getElementById('progress');
 const form = document.getElementById('form');
 
 form.addEventListener('submit', function(event) {
-    let input = form.elements.file;
-    let file = input.files[0];
-    
-    if (file) {
-        upload(file);
-    }
-    
-    event.preventDefault();
-})
-
-function upload(file) {
+    let formData = new FormData(form);
     let request = new XMLHttpRequest();
-    let url = 'https://netology-slow-rest.herokuapp.com/upload.php';
-  
-    request.upload.onprogress = function(event) {
-        progress.setAttribute('max', event.total);
-        progress.value = event.loaded;
+    request.open('POST', 'https://netology-slow-rest.herokuapp.com/upload.php');
+    
+    request.upload.onloadstart = function() {   
+        progress.value = 0.1;
+
+        function increase() {
+            if (progress.value < 1.0) {
+                progress.value = progress.value + 0.1;
+            }            
+        }        
+        setInterval(increase, 2000);
     }
-  
-    request.open('POST', url);
-    request.send(file);
-}
+
+    request.upload.onload = function() {
+        progress.value = 1.0;
+        alert('Загрузка завершена.')
+    }
+    
+    request.send(formData);
+    event.preventDefault()
+})
