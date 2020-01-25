@@ -2,12 +2,18 @@ body {
   font-family: 'Arial';
 }
 
+.row:nth-child(n+2) {
+  margin-top: 5px;
+}
+
 .signin {
   display: none;
 }
+
 .signin_active {
   display: block;
 }
+
 .control {
   padding: 20px;
   border-radius: 25px;
@@ -26,6 +32,7 @@ body {
   width: 200px;
   box-sizing: border-box;
   cursor: pointer;
+  margin-top: 15px;
 }
 
 .welcome {
