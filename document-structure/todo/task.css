@@ -5,6 +5,7 @@ body {
 .tasks__control {
   display: flex;
 }
+
 .tasks__input {
   flex-grow: 1;
   padding: 10px;
@@ -19,6 +20,7 @@ body {
   border-radius: 25px;
   padding:  10px;
   text-transform: uppercase;
+  margin-left: 15px;
 }
 
 .task {
