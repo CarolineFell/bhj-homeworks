@@ -1,9 +1,17 @@
 'use strict';
 
+//product__quantity-value --> cart__product-count
+
 const quantityControlInc = document.querySelectorAll('.product__quantity-control_inc');
 const quantityControlDec = document.querySelectorAll('.product__quantity-control_dec');
 const productAdd = document.querySelectorAll('.product__add');
 const cart = document.querySelector('.cart');
+
+cart.innerHTML += `
+                    <div class="cart__title">Корзина</div>
+                        <div class="cart__products">
+                    </div>
+                    `;
 
 class Cart {   
     constructor(box) {
@@ -23,7 +31,7 @@ class Cart {
             thingy.addEventListener('click', function(event) {
                 let target = event.target.closest('.product');
                 if (target) {
-                    target.querySelector('.product__quantity-value').textContent++
+                    target.querySelector('.product__quantity-value').textContent++;
                 }
             }) 
         }    
@@ -48,25 +56,31 @@ class Cart {
         for (let product of this.productAdd) {
             product.addEventListener('click', function() {
 
-                cart.innerHTML += `
-                    <div class="cart__title">Корзина</div>
-                        <div class="cart__products">
-                    </div>
-                    `;
-
-                let dataEvent = event.target.closest('.product').dataset.id;
-                let targetEvent = event.target.closest('.product');
+                let productDatasetId = event.target.closest('.product').dataset.id;
+                let product = event.target.closest('.product');
                 let cartProducts = body.querySelector('.cart__products');
-                let valueTarget = targetEvent.querySelector('.product__quantity-value');
+                let productQuantityValue = product.querySelector('.product__quantity-value');
                 
                 if (cartProducts.children.length !== 0) {  
-                    if (cartProducts.querySelector(`[data-id="${dataEvent}"]`)) {
-                        cartProducts.querySelector(`[data-id="${dataEvent}"]`).lastChild.textContent = Number(valueTarget.textContent);
+                    if (cartProducts.querySelector(`[data-id="${productDatasetId}"]`)) {
+                        let oldOne = Number(cartProducts.querySelector(`[data-id="${productDatasetId}"]`).lastChild.textContent);
+                        cartProducts.querySelector(`[data-id="${productDatasetId}"]`).lastChild.textContent = Number(productQuantityValue.textContent);
+                        console.log('oldOne ' + oldOne)
+                        
+                        if (productQuantityValue.textContent) {
+                            let total = oldOne + Number(productQuantityValue.textContent)
+                            cartProducts.querySelector(`[data-id="${productDatasetId}"]`).lastChild.textContent = total;
+                            console.log('add to product ' + Number(productQuantityValue.textContent))
+                            console.log('total ' + total)
+                        }
+                        
                     } else {
-                        cartProducts.appendChild(add(dataEvent, Number(valueTarget.textContent), targetEvent.querySelector('img').getAttribute('src')));    
+                        cartProducts.appendChild(add(productDatasetId, Number(productQuantityValue.textContent), product.querySelector('img').getAttribute('src')));  
+                        console.log('add another one product ' + productQuantityValue.textContent) 
                     }
                 } else {
-                    cartProducts.appendChild(add(dataEvent, Number(valueTarget.textContent), targetEvent.querySelector('img').getAttribute('src')));
+                    cartProducts.appendChild(add(productDatasetId, Number(productQuantityValue.textContent), product.querySelector('img').getAttribute('src')));
+                    console.log('add product ' + cartProducts.textContent)
                 }
             })
         }
@@ -97,11 +111,11 @@ class Cart {
             event.target.closest('.cart__product').remove();
         })
 
-        divDataId.appendChild(divDelete);
-        divDataId.appendChild(img);
-        divDataId.appendChild(divDataValue);
+        divDataId.appendChild(divDelete); // <div class="delete" title="Удалить товар" style="color: red;">✘</div>
+        divDataId.appendChild(img); // <img src="https://static-eu.insales.ru/images/products/1/7875/257179331/4515850.jpg" class="cart__product-image">
+        divDataId.appendChild(divDataValue); // <div class="cart__product-count">1</div>
 
-        return divDataId;
+        return divDataId; // <div data-id="1" class="cart__product"></div>
     }
 }
 

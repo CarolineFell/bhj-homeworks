@@ -12,6 +12,10 @@ body {
   position: relative;
 }
 
+.cart__product:nth-child(n+2) {
+  margin-left: 20px;
+}
+
 .cart__product-count {
   position: absolute;
   top: 0;
@@ -23,7 +27,6 @@ body {
 
 .cart__product-image {
   border-radius: 6px;
-  margin-right: 10px;
   width: 100px;
   height: 100px;
   object-fit: cover;
