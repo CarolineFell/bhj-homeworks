@@ -27,13 +27,11 @@ window.addEventListener('load', function() {
 modalClose.addEventListener('click', function(e) {
     e.target.closest('.modal').classList.remove('modal_active');
   
-    if (getCookie('modalOpen')) {
+    if (getCookie('modalOpen=true')) {
       return false;
     } else {
       let date = new Date();
       date.setDate(date.getDate() + 1); // adds 1 day to the date
-      document.cookie = 'path=/; expires=' + date.toUTCString();
-      console.log(document.cookie)
-      // modalOpen=true; popup=closed; close="true"; expires=Sun, 26 Jan 2020 10:35:16 GMT; path=/; modalOpen=true
+      document.cookie = 'modalOpen=true; expires=' + date.toUTCString();
     }
 })
